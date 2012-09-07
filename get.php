@@ -156,6 +156,37 @@ function graphOfTweetsByHour($tweets) {
 
     return $html;
 }
+function graphOfTweetsByWeekDay($tweets) {
+	$days = array("Sunday" => 0, "Monday" => 0, "Tuesday" => 0,
+				"Wednesday" => 0, "Thursday" => 0, "Friday" => 0, "Saturday" => 0);
+	foreach($tweets as $tweet) {
+		$day = date("l", strtotime($tweet['pubDate']));
+		$days[$day]++;
+	}
+	$json = "['Weekday', 'Tweets'],\n";
+	foreach($days as $day => $num) {
+		$json .= "['$day', $num],\n";
+	}
+	$json = "[" . substr($json, 0, -2) . "]\n";
+	
+	$html = "<script type=\"text/javascript\">
+      google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});
+      google.setOnLoadCallback(function() {
+        var data = google.visualization.arrayToDataTable($json);
+
+        var options = {
+		      title: 'Tweets by Day of Week',
+		      hAxis: {title: 'Day'},
+		      legend: { position: 'none' }
+		    },
+        	chart = new google.visualization.ColumnChart(document.getElementById('weekday_chart_div'));
+	    chart.draw(data, options);
+      });
+    </script>
+    <div id=\"weekday_chart_div\" style=\"float: left; width: 550px; height: 250px;\"></div>";
+
+    return $html;
+}
 
 function footer() {
 	return "<p class='footer'>Analysis thanks to <a href='https://github.com/jdbevan/140History'>140History</a> by Jon Bevan</p>\n";
@@ -186,8 +217,9 @@ function htmlPage($title, $content) {
 }
 
 $content = tableOfHashtags($all_hashtags);
-$content .= graphOfTweetsByHour($all_tweets);
 $content .= graphOfTweetsByDay($all_tweets);
+$content .= graphOfTweetsByHour($all_tweets);
+$content .= graphOfTweetsByWeekDay($all_tweets);
 
 htmlPage($username . " tweet analysis", $content);
 exit;
