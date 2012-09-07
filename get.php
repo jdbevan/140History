@@ -193,7 +193,7 @@ function footer() {
 }
 function styling() {
 	return "body { font-family: Arial; font-size: 10pt; }
-.footer { clear: both; }
+.footer { clear: both; padding-top: 20px; }
 .hashtags { float: left; }
 .hashtags thead tr th { text-align: left; background-color: #E0E0E0; }
 .hashtags tbody tr:nth-child(2n) { background-color: #F0F0F0; }
