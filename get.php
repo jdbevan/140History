@@ -65,12 +65,12 @@ function tableOfHashtags($tags) {
 	arsort($tags);
 	$html = "<table class='hashtags'>
 	<thead>
-		<tr><th>Hashtag</th><th>Tweets</th><th>%</th></tr>
+		<tr><th>Hashtag</th><th>Tweets</th><th>% of tags</th></tr>
 	</thead>
 	<tbody>";
 	foreach ($tags as $tag => $num) {
 		if ($num < 3) break;
-		$html .= "<tr><td><a href='https://twitter.com/#!/search/realtime/%23$tag'>$tag</a></td><td>$num</td><td>" . number_format($num/$total*100,2) . "</td></tr>\n";
+		$html .= "<tr><td><a href='https://twitter.com/#!/search/realtime/%23$tag'>$tag</a></td><td>$num</td><td>" . number_format($num/$total*100,2) . "%</td></tr>\n";
 	}
 	$html .= "</tbody></table>\n";
 	return $html;
@@ -117,7 +117,7 @@ function graphOfTweetsByDay($tweets) {
 	    chart.draw(data, options);
       });
     </script>
-    <div id=\"days_chart_div\" style=\"width: 550px; height: 250px;\"></div>";
+    <div id=\"days_chart_div\" style=\"float: left; width: 550px; height: 250px;\"></div>";
 
     return $html;
 }
@@ -163,6 +163,7 @@ function footer() {
 function styling() {
 	return "body { font-family: Arial; font-size: 10pt; }
 .footer { clear: both; }
+.hashtags { float: left; }
 .hashtags thead tr th { text-align: left; background-color: #E0E0E0; }
 .hashtags tbody tr:nth-child(2n) { background-color: #F0F0F0; }
 .hashtags th, .hashtags td { padding: 5px; }";
